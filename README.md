@@ -56,6 +56,7 @@ federated-learning-prototype/
 │   ├── aggregator/          # Central aggregation server
 │   ├── data_party/          # Local data party implementations
 │   ├── smc/                 # Secure Multiparty Computation
+│       └── paillier.py      # Paillier homomorphic encryption
 │   ├── dp/                  # Differential Privacy mechanisms
 │   ├── models/              # ML model implementations
 │   ├── communication/       # Inter-party communication
@@ -93,6 +94,35 @@ X_train, X_test, y_train, y_test = preprocess_data(
     target_column='target',
     test_size=0.2
 )
+```
+
+## Secure Multiparty Computation (SMC)
+
+The project implements privacy-preserving computation using the Paillier homomorphic encryption scheme (`src/smc/paillier.py`):
+
+### Features
+
+- **Homomorphic Encryption**: Allows performing computations on encrypted data
+- **Secure Aggregation**: Aggregate model updates without revealing individual contributions
+- **Key Management**: Generate and manage cryptographic keys for secure operations
+
+### Usage
+
+```python
+from src.smc.paillier import PaillierCrypto, aggregate_encrypted_vectors
+
+# Initialize the cryptosystem
+crypto = PaillierCrypto()
+public_key, private_key = crypto.generate_keys()
+
+# Encrypt model weights (at data parties)
+encrypted_weights = crypto.encrypt_vector([0.1, 0.2, 0.3])
+
+# Aggregate encrypted weights (at aggregator)
+aggregated = aggregate_encrypted_vectors([encrypted_weights1, encrypted_weights2])
+
+# Decrypt the aggregated result (at aggregator)
+decrypted_result = crypto.decrypt_vector(aggregated)
 ```
 
 ## Usage
