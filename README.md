@@ -59,6 +59,7 @@ federated-learning-prototype/
 │       └── paillier.py      # Paillier homomorphic encryption
 │   ├── dp/                  # Differential Privacy mechanisms
 │   ├── models/              # ML model implementations
+│       └── trainer.py       # Local logistic regression trainer
 │   ├── communication/       # Inter-party communication
 │   └── utils/               # Common utilities
 │       └── data_loader.py   # Dataset loading and preprocessing
@@ -123,6 +124,33 @@ aggregated = aggregate_encrypted_vectors([encrypted_weights1, encrypted_weights2
 
 # Decrypt the aggregated result (at aggregator)
 decrypted_result = crypto.decrypt_vector(aggregated)
+```
+
+## Model Trainer
+
+The project includes a local model trainer module (`src/models/trainer.py`) that trains logistic regression models on each data party's private data:
+
+### Features
+
+- **Local Training**: Train logistic regression models using scikit-learn
+- **Parameter Extraction**: Extract model coefficients for federated aggregation
+- **Performance Evaluation**: Calculate accuracy on local test data
+- **Edge Case Handling**: Handle constant labels, missing data, and other edge cases
+
+### Usage
+
+```python
+from src.models.trainer import train_local_model
+
+# Train a logistic regression model on local data
+weights, accuracy, metrics = train_local_model(X_train, y_train, X_test, y_test)
+
+# Use custom hyperparameters
+custom_params = {'solver': 'liblinear', 'max_iter': 2000, 'C': 0.5}
+weights, accuracy, metrics = train_local_model(
+    X_train, y_train, X_test, y_test, 
+    hyperparams=custom_params
+)
 ```
 
 ## Usage
