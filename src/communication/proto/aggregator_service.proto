@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package federated_learning;
+
+// Service definition for the aggregator
+service AggregatorService {
+  // Get public key from the aggregator
+  rpc GetPublicKey (GetPublicKeyRequest) returns (GetPublicKeyResponse) {}
+  
+  // Submit encrypted model updates to the aggregator
+  rpc SubmitUpdate (SubmitUpdateRequest) returns (SubmitUpdateResponse) {}
+  
+  // Get aggregated model from the aggregator
+  rpc GetAggregatedModel (GetAggregatedModelRequest) returns (GetAggregatedModelResponse) {}
+}
+
+// Empty request for getting the public key
+message GetPublicKeyRequest {}
+
+// Response containing the public key components
+message GetPublicKeyResponse {
+  string n = 1;  // Public key modulus as a base64 string
+  string g = 2;  // Public key generator as a base64 string
+  bool success = 3;
+  string error_message = 4;
+}
+
+// Request for submitting encrypted model updates
+message SubmitUpdateRequest {
+  string client_id = 1;
+  repeated EncryptedValue encrypted_weights = 2;
+  string round_id = 3;
+}
+
+// Response for the update submission
+message SubmitUpdateResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// Encrypted value representation
+message EncryptedValue {
+  string value = 1;      // Base64 encoded encrypted value
+  string exponent = 2;   // Exponent as a string
+}
+
+// Request to get the aggregated model
+message GetAggregatedModelRequest {
+  string round_id = 1;
+}
+
+// Response with the aggregated model
+message GetAggregatedModelResponse {
+  repeated float aggregated_weights = 1;
+  bool success = 2;
+  string message = 3;
+  float epsilon_spent = 4;  // Privacy budget spent on this round
+}
