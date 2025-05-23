@@ -60,10 +60,39 @@ federated-learning-prototype/
 │   ├── models/              # ML model implementations
 │   ├── communication/       # Inter-party communication
 │   └── utils/               # Common utilities
+│       └── data_loader.py   # Dataset loading and preprocessing
 ├── tests/                   # Test suite
 ├── docker/                  # Docker configurations
 ├── config/                  # Configuration files
 └── pyproject.toml          # Project dependencies
+```
+
+## Data Module
+
+The project includes a data loading and preprocessing module (`src/utils/data_loader.py`) that provides essential functionality for the federated learning simulation:
+
+### Features
+
+- **Data Loading**: Load real data from CSV files or generate synthetic classification data
+- **Preprocessing**: Normalize features, handle missing values, and split into train/test sets
+- **Error Handling**: Robust error handling for various edge cases (missing files, empty datasets, etc.)
+
+### Usage
+
+```python
+from src.utils.data_loader import load_data, preprocess_data
+
+# Load data (either from CSV or synthetic)
+df = load_data(file_path="path/to/data.csv")  # From CSV
+# or
+df = load_data(file_path=None, n_samples=1000, n_features=20)  # Synthetic
+
+# Preprocess data
+X_train, X_test, y_train, y_test = preprocess_data(
+    df, 
+    target_column='target',
+    test_size=0.2
+)
 ```
 
 ## Usage
