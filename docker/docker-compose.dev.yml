@@ -1,0 +1,42 @@
+version: '3.8'
+
+# Development version with mounted source code for faster development
+services:
+  aggregator:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.aggregator
+    container_name: fl_aggregator_dev
+    ports:
+      - "50051:50051"
+    volumes:
+      - ../src:/app/src  # Mount source code for live editing
+      - ../config:/app/config
+      - ../logs:/app/logs
+    environment:
+      - CONFIG_FILE=/app/config/aggregator.yaml
+      - PYTHONPATH=/app
+    networks:
+      - fl_network
+    command: ["uv", "run", "python", "-m", "src.aggregator.main", "--dev"]
+
+  data_party_dev:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.data_party
+    ports:
+      - "50052-50061:50052"  # Support up to 10 parties
+    volumes:
+      - ../src:/app/src  # Mount source code for live editing
+      - ../config:/app/config
+      - ../logs:/app/logs
+      - ../data:/app/data
+    environment:
+      - PYTHONPATH=/app
+    networks:
+      - fl_network
+    command: ["tail", "-f", "/dev/null"]  # Keep container running for manual starts
+
+networks:
+  fl_network:
+    driver: bridge

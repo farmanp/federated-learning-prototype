@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  aggregator:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.aggregator
+    container_name: fl_aggregator
+    ports:
+      - "50051:50051"
+    volumes:
+      - ../config:/app/config
+      - ../logs:/app/logs
+    environment:
+      - CONFIG_FILE=/app/config/aggregator.yaml
+    networks:
+      - fl_network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import grpc; grpc.insecure_channel('localhost:50051').get_state()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  data_party_1:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.data_party
+    container_name: fl_party_1
+    ports:
+      - "50052:50052"
+    volumes:
+      - ../config:/app/config
+      - ../logs:/app/logs
+      - ../data:/app/data
+    environment:
+      - PARTY_ID=1
+      - PARTY_PORT=50052
+      - AGGREGATOR_HOST=aggregator
+      - CONFIG_FILE=/app/config/party_1.yaml
+    depends_on:
+      - aggregator
+    networks:
+      - fl_network
+
+  data_party_2:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.data_party
+    container_name: fl_party_2
+    ports:
+      - "50053:50052"
+    volumes:
+      - ../config:/app/config
+      - ../logs:/app/logs
+      - ../data:/app/data
+    environment:
+      - PARTY_ID=2
+      - PARTY_PORT=50052
+      - AGGREGATOR_HOST=aggregator
+      - CONFIG_FILE=/app/config/party_2.yaml
+    depends_on:
+      - aggregator
+    networks:
+      - fl_network
+
+  data_party_3:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.data_party
+    container_name: fl_party_3
+    ports:
+      - "50054:50052"
+    volumes:
+      - ../config:/app/config
+      - ../logs:/app/logs
+      - ../data:/app/data
+    environment:
+      - PARTY_ID=3
+      - PARTY_PORT=50052
+      - AGGREGATOR_HOST=aggregator
+      - CONFIG_FILE=/app/config/party_3.yaml
+    depends_on:
+      - aggregator
+    networks:
+      - fl_network
+
+networks:
+  fl_network:
+    driver: bridge
+
+volumes:
+  logs_data:
+  model_data:

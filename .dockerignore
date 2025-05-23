@@ -1,0 +1,63 @@
+# Git files
+.git
+.gitignore
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.pytest_cache/
+.coverage
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Data files (can be large)
+data/
+datasets/
+*.csv
+*.pkl
+*.h5
+
+# Model files
+models/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+
+# Documentation
+docs/
+*.md
+
+# Test files
+tests/
+
+# Development tools
+.pre-commit-config.yaml
+pyproject.toml.bak

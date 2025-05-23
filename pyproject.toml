@@ -3,7 +3,7 @@ name = "federated-learning-prototype"
 version = "0.1.0"
 description = "A hybrid federated learning framework with SMC and Differential Privacy"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"  # Updated Python requirement
 dependencies = [
     # Cryptography
     "phe>=1.5.0",          # Paillier encryption
@@ -11,9 +11,9 @@ dependencies = [
     
     # Machine Learning
     "scikit-learn>=1.0.0", # Traditional ML algorithms
-    "tensorflow>=2.8.0",   # Deep learning framework
-    "torch>=1.11.0",       # PyTorch for neural networks
-    "torchvision>=0.12.0", # Vision utilities for PyTorch
+    "tensorflow>=2.15.0",  # Deep learning framework (compatible with Python 3.12)
+    "torch>=2.0.0",        # PyTorch for neural networks
+    "torchvision>=0.15.0", # Vision utilities for PyTorch
     
     # Data processing
     "numpy>=1.21.0",       # Numerical computing
