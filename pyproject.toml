@@ -1,0 +1,50 @@
+[project]
+name = "federated-learning-prototype"
+version = "0.1.0"
+description = "A hybrid federated learning framework with SMC and Differential Privacy"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    # Cryptography
+    "phe>=1.5.0",          # Paillier encryption
+    "cryptography>=3.4.8", # General cryptographic functions
+    
+    # Machine Learning
+    "scikit-learn>=1.0.0", # Traditional ML algorithms
+    "tensorflow>=2.8.0",   # Deep learning framework
+    "torch>=1.11.0",       # PyTorch for neural networks
+    "torchvision>=0.12.0", # Vision utilities for PyTorch
+    
+    # Data processing
+    "numpy>=1.21.0",       # Numerical computing
+    "pandas>=1.3.0",       # Data manipulation
+    
+    # Communication
+    "grpcio>=1.44.0",      # gRPC for inter-party communication
+    "grpcio-tools>=1.44.0", # gRPC development tools
+    
+    # Differential Privacy
+    "opacus>=1.4.0",       # Differential privacy for PyTorch
+    
+    # Utilities
+    "pydantic>=1.9.0",     # Data validation
+    "click>=8.0.0",        # CLI interface
+    "loguru>=0.6.0",       # Logging
+    "tqdm>=4.62.0",        # Progress bars
+    "matplotlib>=3.5.0",   # Plotting
+    "seaborn>=0.11.0",     # Statistical plotting
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=22.0.0",
+    "flake8>=4.0.0",
+    "mypy>=0.950",
+    "pre-commit>=2.17.0",
+]
+
+[project.scripts]
+fl-aggregator = "federated_learning_prototype.aggregator.main:main"
+fl-data-party = "federated_learning_prototype.data_party.main:main"

@@ -1,0 +1,39 @@
+# Data Party Configuration Template
+party:
+  id: 1
+  host: "localhost"
+  port: 50052
+  
+# Aggregator Connection
+aggregator:
+  host: "localhost"
+  port: 50051
+  
+# Dataset Configuration
+dataset:
+  name: "iris"  # or "mnist", "cifar10"
+  path: "data/party_1"
+  train_size: 0.8
+  random_seed: 42
+  
+# Local Training Configuration
+training:
+  epochs: 5
+  batch_size: 32
+  learning_rate: 0.01
+  
+# Model Configuration
+model:
+  type: "decision_tree"  # or "cnn", "svm"
+  parameters:
+    max_depth: 5
+    min_samples_split: 2
+    
+# Security Configuration
+security:
+  encrypt_updates: true
+  
+# Logging
+logging:
+  level: "INFO"
+  file: "logs/party_1.log"
