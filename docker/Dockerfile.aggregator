@@ -12,6 +12,7 @@ RUN pip install uv
 
 # Copy project files
 COPY pyproject.toml ./
+COPY uv.lock ./
 COPY src/ ./src/
 COPY config/ ./config/
 
