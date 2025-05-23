@@ -13,10 +13,11 @@ security:
   
 # Differential Privacy Configuration
 differential_privacy:
-  epsilon: 1.0  # Privacy budget
-  delta: 1e-5   # Failure probability
-  noise_mechanism: "gaussian"  # or "laplace"
-  clipping_norm: 1.0
+  enabled: true
+  epsilon: 1.0  # Privacy budget (smaller = more privacy)
+  delta: 1e-5   # Probability of privacy breach
+  clip_norm: 1.0  # L2 norm clipping threshold
+  mechanism: "gaussian"  # Currently only gaussian is supported
   
 # Model Configuration
 model:
