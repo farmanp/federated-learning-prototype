@@ -8,7 +8,7 @@ services:
       dockerfile: docker/Dockerfile.aggregator
     container_name: fl_aggregator_dev
     ports:
-      - "50051:50051"
+      - "50055:50051"
     volumes:
       - ../src:/app/src  # Mount source code for live editing
       - ../config:/app/config
@@ -18,7 +18,7 @@ services:
       - PYTHONPATH=/app
     networks:
       - fl_network
-    command: ["uv", "run", "python", "-m", "src.aggregator.main", "--dev"]
+    command: ["sh", "-c", "cd /app/src/communication && uv run ./generate_grpc.sh && echo 'Contents of /app/src/communication/generated after script:' && ls -la /app/src/communication/generated && cd /app && uv run python -m src.aggregator.main"]
 
   data_party_dev:
     build:

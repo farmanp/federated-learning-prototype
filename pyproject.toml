@@ -33,6 +33,9 @@ dependencies = [
     "tqdm>=4.62.0",        # Progress bars
     "matplotlib>=3.5.0",   # Plotting
     "seaborn>=0.11.0",     # Statistical plotting
+    
+    # YAML support
+    "PyYAML",              # YAML parsing and emitting
 ]
 
 [project.optional-dependencies]

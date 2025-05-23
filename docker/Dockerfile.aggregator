@@ -16,8 +16,14 @@ COPY uv.lock ./
 COPY src/ ./src/
 COPY config/ ./config/
 
-# Install Python dependencies
+# Install Python dependencies FIRST
 RUN uv sync --frozen
+
+# Generate gRPC code
+RUN rm -rf src/communication/generated # Clean the directory first
+RUN chmod +x src/communication/generate_grpc.sh 
+RUN uv run src/communication/generate_grpc.sh # Execute with uv run
+RUN ls -la src/communication/generated/ # List contents for debugging
 
 # Create logs directory
 RUN mkdir -p logs

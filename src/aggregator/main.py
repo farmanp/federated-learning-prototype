@@ -26,10 +26,10 @@ def main(config_path: str):
         return
     
     try:
-        with open(config_file, 'r', encoding='utf-8') as f:
-            config = yaml.safe_load(f)
-    except (yaml.YAMLError, IOError) as e:
-        logger.error(f"Error loading configuration: {e}")
+        with open(config_file, 'r', encoding='utf-8') as f_config:
+            config = yaml.safe_load(f_config)
+    except (yaml.YAMLError, IOError) as e_yaml:
+        logger.error(f"Error loading configuration: {e_yaml}")
         return
     
     # Initialize SMC components (Paillier keys)
@@ -40,8 +40,8 @@ def main(config_path: str):
     try:
         public_key, private_key = generate_keys(key_size=key_size)
         logger.success(f"Generated Paillier keys with size {key_size}")
-    except (ValueError, RuntimeError) as e:
-        logger.error(f"Error generating Paillier keys: {e}")
+    except (ValueError, RuntimeError) as e_keys:
+        logger.error(f"Error generating Paillier keys: {e_keys}")
         return
     
     # Extract DP configuration
@@ -49,9 +49,9 @@ def main(config_path: str):
     dp_enabled = dp_config.get('enabled', False)
     
     if dp_enabled:
-        epsilon = dp_config.get('epsilon', 1.0)
-        delta = dp_config.get('delta', 1e-5)
-        clip_norm = dp_config.get('clip_norm', 1.0)
+        epsilon = float(dp_config.get('epsilon', 1.0))
+        delta = float(dp_config.get('delta', 1e-5)) # Ensure delta is float
+        clip_norm = float(dp_config.get('clip_norm', 1.0))
         
         logger.info(f"Differential Privacy enabled: epsilon={epsilon}, delta={delta}, clip_norm={clip_norm}")
         
@@ -70,9 +70,10 @@ def main(config_path: str):
         aggregator = AggregatorPipeline(
             public_key=public_key,
             private_key=private_key,
-            dp_epsilon=1000.0,  # Very high epsilon = minimal privacy protection
-            dp_delta=1e-9,
-            dp_sensitivity=0.1
+            # Ensure these are float for consistency, though defaults are already
+            dp_epsilon=float(1000.0), 
+            dp_delta=float(1e-9),
+            dp_sensitivity=float(0.1)
         )
     
     # Start gRPC server to listen for Data Parties
@@ -93,8 +94,8 @@ def main(config_path: str):
             aggregator_pipeline=aggregator,
             max_workers=max_workers
         )
-    except (OSError, RuntimeError) as e:
-        logger.error(f"Error starting gRPC server: {e}")
+    except (OSError, RuntimeError) as e_server:
+        logger.error(f"Error starting gRPC server: {e_server}")
         return
     
     # Note: The serve function has an infinite loop, so the code below won't be reached
