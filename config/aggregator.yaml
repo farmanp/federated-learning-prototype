@@ -1,6 +1,6 @@
 # Aggregator Configuration
 aggregator:
-  host: "localhost"
+  host: "0.0.0.0" # Changed from "localhost"
   port: 50051
   max_participants: 10
   min_participants: 2

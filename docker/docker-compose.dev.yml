@@ -18,7 +18,7 @@ services:
       - PYTHONPATH=/app
     networks:
       - fl_network
-    command: ["sh", "-c", "cd /app/src/communication && uv run ./generate_grpc.sh && echo 'Contents of /app/src/communication/generated after script:' && ls -la /app/src/communication/generated && cd /app && uv run python -m src.aggregator.main"]
+    command: ["sh", "-c", "cd /app/src/communication && bash ./generate_grpc.sh && echo 'Contents of /app/src/communication/generated after script:' && ls -la /app/src/communication/generated && cd /app && python -m src.aggregator.main"]
 
   data_party_dev:
     build:

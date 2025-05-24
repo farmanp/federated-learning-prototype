@@ -1,0 +1,42 @@
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the requirements file into the container at /app
+COPY ./requirements.txt /app/requirements.txt
+COPY ./pyproject.toml /app/pyproject.toml
+COPY ./uv.lock /app/uv.lock
+
+# Install any needed packages specified in requirements.txt
+# Ensure pip is up-to-date and install build-essential for grpcio
+RUN pip install --upgrade pip && \
+    apt-get update && apt-get install -y build-essential && \
+    pip install --no-cache-dir -r requirements.txt && \
+    pip install numpy grpcio grpcio-tools loguru pyyaml && \
+    apt-get purge -y --auto-remove build-essential && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy the rest of the application's code into the container at /app
+# We are copying the 'src' directory from the context to '/app/src' in the image
+COPY ./src /app/src
+COPY ./config /app/config
+COPY ./data /app/data
+
+# Make port 50051 available to the world outside this container (for gRPC)
+EXPOSE 50051
+# Make port 8080 available (if a web server is used)
+EXPOSE 8080
+
+# Define environment variables (can be overridden by docker-compose)
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+ENV GRPC_PORT=50051
+ENV CONFIG_PATH=/app/config/party_1.yaml
+ENV DATA_PATH=/app/data/iris_party_1.csv
+ENV LOG_LEVEL=INFO
+
+# Run run.py when the container launches
+# The command is executed relative to the WORKDIR (/app)
+CMD ["python", "-m", "src.data_party.run"]

@@ -12,7 +12,7 @@ aggregator:
 # Dataset Configuration
 dataset:
   name: "iris"
-  path: "data/party_1"
+  path: "data/party_1/iris_party_1.csv"  # Updated to point to the specific file
   train_size: 0.8
   random_seed: 42
   partition_index: 0  # Which partition of the dataset this party gets

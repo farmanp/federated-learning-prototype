@@ -12,7 +12,7 @@ aggregator:
 # Dataset Configuration
 dataset:
   name: "iris"
-  path: "data/party_3"
+  path: "data/party_1/iris_party_1.csv"  # Using the existing data file
   train_size: 0.8
   random_seed: 44
   partition_index: 2

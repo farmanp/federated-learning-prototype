@@ -35,18 +35,42 @@ This prototype implements the novel federated learning framework described in "A
 
 ## Installation
 
+### Option 1: Using pip/venv (Standard)
+
 1. Clone this repository
-2. Install dependencies using uv:
+2. Set up a virtual environment and install dependencies:
 
 ```bash
-uv sync
+# Create and activate a virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -e .
 ```
 
 For development dependencies:
 
 ```bash
-uv sync --group dev
+pip install -e ".[dev]"
 ```
+
+### Option 2: Using Docker (Recommended)
+
+For easier setup and consistency across environments, use Docker:
+
+1. Clone this repository
+2. Build and run using Docker Compose:
+
+```bash
+# Build and start all services
+docker-compose -f docker/docker-compose.dev.yml up --build
+
+# Or build and start just the data party
+docker-compose -f docker/docker-compose.dev.yml up --build data_party_dev
+```
+
+See [Docker Setup Guide](docs/docker_setup_guide.md) for more details.
 
 ## Project Structure
 
@@ -66,8 +90,24 @@ federated-learning-prototype/
 ├── tests/                   # Test suite
 ├── docker/                  # Docker configurations
 ├── config/                  # Configuration files
+├── docs/                    # Documentation
+│   ├── implementation_guide.md     # Aggregator implementation guide
+│   ├── data_party_guide.md         # Data party implementation guide
+│   ├── docker_setup_guide.md       # Docker setup instructions
+│   ├── data_module.md              # Data loading documentation
+│   ├── dp_module.md                # Differential privacy documentation
+│   └── paillier_module.md          # Secure multiparty computation docs
 └── pyproject.toml          # Project dependencies
 ```
+
+## Documentation
+
+- [Aggregator Implementation Guide](docs/implementation_guide.md): Instructions for the central aggregation server
+- [Data Party Guide](docs/data_party_guide.md): How to run data party nodes
+- [Docker Setup Guide](docs/docker_setup_guide.md): Instructions for using Docker containers
+- [Data Module Documentation](docs/data_module.md): Details about data loading and processing
+- [Differential Privacy Module](docs/dp_module.md): Information about the DP mechanisms
+- [Paillier Module Documentation](docs/paillier_module.md): Details about the SMC implementation
 
 ## Data Module
 
